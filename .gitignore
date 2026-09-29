@@ -1,0 +1,38 @@
+# Java / Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+*.class
+*.jar
+!**/.mvn/wrapper/*.jar
+*.war
+hs_err_pid*
+
+# Node / Angular
+node_modules/
+dist/
+.angular/
+npm-debug.log*
+yarn-error.log*
+coverage/
+
+# Go
+report-service/bin/
+*.exe
+*.test
+*.out
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.local
