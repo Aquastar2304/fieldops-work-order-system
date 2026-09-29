@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: fieldops-backend
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/fieldops}
+    username: ${DB_USER:fieldops}
+    password: ${DB_PASSWORD:fieldops}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 50
+        order_inserts: true
+        order_updates: true
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+server:
+  port: ${SERVER_PORT:8080}
+  error:
+    include-message: always
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+  api-docs:
+    path: /v3/api-docs
+
+fieldops:
+  security:
+    # Overridden in every real deployment. Base64 of a 256-bit key.
+    jwt-secret: ${JWT_SECRET:ZmllbGRvcHMtZGV2ZWxvcG1lbnQtb25seS1zZWNyZXQta2V5LTEyMzQ1Ng==}
+    jwt-expiry-seconds: ${JWT_EXPIRY_SECONDS:3600}
+  reports:
+    overdue-after-days: ${OVERDUE_AFTER_DAYS:7}
+
+logging:
+  level:
+    com.fieldops: INFO
