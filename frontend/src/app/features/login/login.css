@@ -1,0 +1,31 @@
+.login {
+  max-width: 22rem;
+  margin: 4rem auto;
+}
+
+.subtitle {
+  color: var(--muted);
+  margin-top: 0.25rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.field label {
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.demo {
+  margin-top: 2rem;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+.state.error {
+  color: var(--danger);
+}

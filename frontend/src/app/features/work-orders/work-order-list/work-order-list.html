@@ -1,0 +1,60 @@
+<section class="page">
+  <header class="page-header">
+    <h1>Work orders</h1>
+    <a class="button primary" routerLink="/work-orders/new">New work order</a>
+  </header>
+
+  <div class="toolbar">
+    <label for="status-filter">Status</label>
+    <select
+      id="status-filter"
+      [ngModel]="selectedStatus()"
+      (ngModelChange)="onStatusChange($event)"
+      name="status"
+    >
+      <option value="">All</option>
+      @for (status of statuses; track status) {
+        <option [value]="status">{{ status }}</option>
+      }
+    </select>
+
+    @if (!loading()) {
+      <span class="count">{{ totalElements() }} matching</span>
+    }
+  </div>
+
+  @if (loading()) {
+    <p class="state">Loading work orders…</p>
+  } @else if (error()) {
+    <p class="state error" role="alert">{{ error() }}</p>
+  } @else if (workOrders().length === 0) {
+    <p class="state">No work orders match this filter.</p>
+  } @else {
+    <table class="grid">
+      <thead>
+        <tr>
+          <th scope="col">Reference</th>
+          <th scope="col">Title</th>
+          <th scope="col">Status</th>
+          <th scope="col">Priority</th>
+          <th scope="col">Asset</th>
+          <th scope="col">Technician</th>
+          <th scope="col">Opened</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (workOrder of workOrders(); track workOrder.id) {
+          <tr>
+            <td><a [routerLink]="['/work-orders', workOrder.id]">{{ workOrder.reference }}</a></td>
+            <td>{{ workOrder.title }}</td>
+            <td><span class="badge status-{{ workOrder.status }}">{{ workOrder.status }}</span></td>
+            <td><span class="badge priority-{{ workOrder.priority }}">{{ workOrder.priority }}</span></td>
+            <td>{{ workOrder.assetTag }}</td>
+            <td>{{ workOrder.technicianName ?? '—' }}</td>
+            <td>{{ workOrder.openedAt | date: 'medium' }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</section>

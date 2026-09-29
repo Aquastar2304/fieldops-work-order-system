@@ -1,0 +1,26 @@
+<section class="login">
+  <h1>FieldOps</h1>
+  <p class="subtitle">Sign in to manage work orders.</p>
+
+  @if (error()) {
+    <p class="state error" role="alert">{{ error() }}</p>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <div class="field">
+      <label for="username">Username</label>
+      <input id="username" type="text" formControlName="username" autocomplete="username" />
+    </div>
+
+    <div class="field">
+      <label for="password">Password</label>
+      <input id="password" type="password" formControlName="password" autocomplete="current-password" />
+    </div>
+
+    <button type="submit" class="button primary" [disabled]="submitting()">
+      {{ submitting() ? 'Signing in…' : 'Sign in' }}
+    </button>
+  </form>
+
+  <p class="demo">Demo logins: <code>admin/admin123</code>, <code>supervisor/super123</code>, <code>tech/tech123</code></p>
+</section>

@@ -1,0 +1,99 @@
+<section class="page">
+  <a class="back" routerLink="/work-orders">← All work orders</a>
+
+  @if (loading()) {
+    <p class="state">Loading…</p>
+  } @else if (workOrder(); as wo) {
+    <header class="page-header">
+      <div>
+        <h1>{{ wo.reference }}</h1>
+        <p class="subtitle">{{ wo.title }}</p>
+      </div>
+      <span class="badge status-{{ wo.status }}">{{ wo.status }}</span>
+    </header>
+
+    @if (error()) {
+      <p class="state error" role="alert">{{ error() }}</p>
+    }
+
+    <dl class="facts">
+      <div><dt>Priority</dt><dd>{{ wo.priority }}</dd></div>
+      <div><dt>Asset</dt><dd>{{ wo.asset?.tag }} — {{ wo.asset?.name }}</dd></div>
+      <div><dt>Site</dt><dd>{{ wo.asset?.siteName ?? '—' }}</dd></div>
+      <div><dt>Technician</dt><dd>{{ wo.technician?.fullName ?? 'Unassigned' }}</dd></div>
+      <div><dt>Opened</dt><dd>{{ wo.openedAt | date: 'medium' }}</dd></div>
+      <div><dt>Closed</dt><dd>{{ wo.closedAt ? (wo.closedAt | date: 'medium') : '—' }}</dd></div>
+    </dl>
+
+    @if (wo.description) {
+      <h2>Description</h2>
+      <p class="description">{{ wo.description }}</p>
+    }
+
+    <h2>Parts used</h2>
+    @if (wo.parts.length === 0) {
+      <p class="state">No parts recorded against this work order.</p>
+    } @else {
+      <table class="grid">
+        <thead>
+          <tr><th scope="col">SKU</th><th scope="col">Part</th><th scope="col">Quantity</th></tr>
+        </thead>
+        <tbody>
+          @for (line of wo.parts; track line.partId) {
+            <tr><td>{{ line.sku }}</td><td>{{ line.partName }}</td><td>{{ line.quantity }}</td></tr>
+          }
+        </tbody>
+      </table>
+    }
+
+    <h2>Actions</h2>
+    <div class="actions">
+      <div class="action">
+        <label for="technician">Assign technician</label>
+        <select id="technician" [(ngModel)]="selectedTechnicianId" name="technician">
+          <option value="">Choose…</option>
+          @for (technician of technicians(); track technician.id) {
+            <option [value]="technician.id">{{ technician.fullName }} ({{ technician.employeeNo }})</option>
+          }
+        </select>
+        <button type="button" class="button" (click)="assign()" [disabled]="!selectedTechnicianId">
+          Assign
+        </button>
+      </div>
+
+      <div class="action">
+        <label for="part">Consume part</label>
+        <select id="part" [(ngModel)]="selectedPartId" name="part">
+          <option value="">Choose…</option>
+          @for (part of parts(); track part.id) {
+            <option [value]="part.id">{{ part.sku }} — {{ part.name }} ({{ part.quantityInStock }} in stock)</option>
+          }
+        </select>
+        <input
+          type="number"
+          min="1"
+          [(ngModel)]="partQuantity"
+          name="quantity"
+          aria-label="Quantity"
+          class="quantity"
+        />
+        <button type="button" class="button" (click)="addPart()" [disabled]="!selectedPartId">
+          Add part
+        </button>
+      </div>
+
+      <div class="action">
+        <span class="label">Move to</span>
+        @if (wo.allowedTransitions.length === 0) {
+          <span class="state">This work order is closed.</span>
+        } @else {
+          @for (target of wo.allowedTransitions; track target) {
+            <button type="button" class="button" (click)="changeStatus(target)">{{ target }}</button>
+          }
+        }
+      </div>
+    </div>
+  } @else {
+    <p class="state error">{{ error() }}</p>
+  }
+</section>

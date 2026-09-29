@@ -1,0 +1,23 @@
+<header class="masthead">
+  <a class="brand" routerLink="/work-orders">FieldOps</a>
+
+  <nav>
+    <a routerLink="/work-orders" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      Work orders
+    </a>
+    <a routerLink="/work-orders/new" routerLinkActive="active">New</a>
+  </nav>
+
+  <div class="session">
+    @if (isAuthenticated()) {
+      <span class="who">{{ username() }}</span>
+      <button type="button" class="button ghost" (click)="signOut()">Sign out</button>
+    } @else {
+      <a class="button ghost" routerLink="/login">Sign in</a>
+    }
+  </div>
+</header>
+
+<main>
+  <router-outlet />
+</main>

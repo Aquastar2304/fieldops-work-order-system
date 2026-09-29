@@ -1,0 +1,166 @@
+:root {
+  --bg: #f7f8fa;
+  --surface: #ffffff;
+  --text: #16191d;
+  --muted: #667085;
+  --border: #e3e6ea;
+  --row-hover: #f2f4f7;
+  --accent: #0b5fff;
+  --danger: #c0392b;
+  --radius: 6px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #14171c;
+    --surface: #1b1f26;
+    --text: #e8eaed;
+    --muted: #98a2b3;
+    --border: #2b313a;
+    --row-hover: #222831;
+    --accent: #5b8dff;
+    --danger: #ff6b5e;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+h1 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+h2 {
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  margin: 2rem 0 0.75rem;
+}
+
+input,
+select,
+textarea {
+  font: inherit;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.45rem 0.6rem;
+}
+
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.button {
+  display: inline-block;
+  font: inherit;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.button:hover:not(:disabled) {
+  background: var(--row-hover);
+  text-decoration: none;
+}
+
+.button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.button.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.button.primary:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+.button.ghost {
+  border-color: transparent;
+  background: transparent;
+  color: var(--muted);
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid var(--border);
+}
+
+.status-OPEN {
+  color: #8a6d00;
+  border-color: #e0c060;
+}
+
+.status-ASSIGNED {
+  color: #0b5fff;
+  border-color: #9cbaff;
+}
+
+.status-IN_PROGRESS {
+  color: #7a3ea1;
+  border-color: #c9a3e0;
+}
+
+.status-CLOSED {
+  color: #2f7a4a;
+  border-color: #92c9a8;
+}
+
+.priority-CRITICAL,
+.priority-HIGH {
+  color: var(--danger);
+  border-color: currentColor;
+}
+
+.priority-MEDIUM,
+.priority-LOW {
+  color: var(--muted);
+}

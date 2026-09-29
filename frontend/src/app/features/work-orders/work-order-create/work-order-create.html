@@ -1,0 +1,66 @@
+<section class="page">
+  <a class="back" routerLink="/work-orders">← All work orders</a>
+  <h1>New work order</h1>
+
+  @if (error()) {
+    <p class="state error" role="alert">{{ error() }}</p>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <div class="field">
+      <label for="title">Title</label>
+      <input id="title" type="text" formControlName="title" autocomplete="off" />
+      @if (title.touched && title.hasError('required')) {
+        <p class="field-error">A title is required.</p>
+      }
+      @if (title.hasError('maxlength')) {
+        <p class="field-error">Keep the title under 200 characters.</p>
+      }
+    </div>
+
+    <div class="field">
+      <label for="asset">Asset</label>
+      <select id="asset" formControlName="assetId">
+        <option value="">Choose an asset…</option>
+        @for (asset of assets(); track asset.id) {
+          <option [value]="asset.id">{{ asset.tag }} — {{ asset.name }} ({{ asset.siteName }})</option>
+        }
+      </select>
+      @if (assetId.touched && assetId.hasError('required')) {
+        <p class="field-error">Pick the asset this work order is against.</p>
+      }
+    </div>
+
+    <div class="field">
+      <label for="priority">Priority</label>
+      <select id="priority" formControlName="priority">
+        @for (priority of priorities; track priority) {
+          <option [value]="priority">{{ priority }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="technician">Technician <span class="optional">(optional)</span></label>
+      <select id="technician" formControlName="technicianId">
+        <option value="">Leave unassigned</option>
+        @for (technician of technicians(); track technician.id) {
+          <option [value]="technician.id">{{ technician.fullName }} ({{ technician.specialty }})</option>
+        }
+      </select>
+      <p class="hint">Assigning someone now moves the work order straight to ASSIGNED.</p>
+    </div>
+
+    <div class="field">
+      <label for="description">Description</label>
+      <textarea id="description" rows="5" formControlName="description"></textarea>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="button primary" [disabled]="submitting()">
+        {{ submitting() ? 'Creating…' : 'Create work order' }}
+      </button>
+      <a class="button" routerLink="/work-orders">Cancel</a>
+    </div>
+  </form>
+</section>
